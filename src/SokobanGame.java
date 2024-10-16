@@ -1,10 +1,4 @@
-import java.awt.GridLayout;
-import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-
 public class SokobanGame {
     private int[][][] levels;
     private int[][] gameBoard;
@@ -27,14 +21,31 @@ public class SokobanGame {
     int row1 = lvlone.length;    //9
     int col1 = lvlone[0].length; //8
     int playrow1 = 2;
-    int playcol1 = 2;
+    int playcol1 = 5;
+
+    static int[][] lvltest =
+        {
+        {0,0,0,0,0,0,0,0},
+        {0,1,1,1,1,1,1,0},
+        {0,1,1,1,1,1,1,0},
+        {0,1,1,1,1,1,1,0},
+        {0,1,1,1,1,1,1,0},
+        {0,4,1,1,1,4,4,0},
+        {0,4,1,4,5,4,4,0},
+        {0,4,1,1,1,4,4,0},
+        {0,0,0,0,0,0,0,0},
+        };
+    int rowtest = lvlone.length;    //9
+    int coltest = lvlone[0].length; //8
+    int playrowtest = 6;
+    int playcoltest = 4;
 
 
 
     public SokobanGame(int[][] level) {
         gameBoard = level;
-        playRow = playrow1;
-        playCol = playcol1;
+        playRow = playrowtest;
+        playCol = playcoltest;
         gui = new SokobanGUI(this);
     }
 
@@ -54,13 +65,34 @@ public class SokobanGame {
         }
 
         gui.update(this);
-
     }
 
+    //first check if move is possible. Then:
+        //if gameboard[player] == playerongoal -> gameboard[player] = goal
+        //(could also be else) if gameboard[player] == player -> gameboard[player] = floor
+        //playcol --;
     public void moveLeft() {
-        int temp = gameBoard[playRow][playCol];
-        gameBoard[playRow][playCol] = gameBoard[playRow][playCol-1];
-        gameBoard[playRow][playCol-1] = temp;
+        int source = gameBoard[playRow][playCol];
+        int destination = gameBoard[playRow][playCol-1];
+
+        if (destination == SokobanTile.FLOOR || destination == SokobanTile.GOAL) { //Should change player's tile to floor/goal and tile to the left to player
+            if (source == SokobanTile.PLAYERONGOAL) {
+                gameBoard[playRow][playCol] = SokobanTile.GOAL;
+            } else gameBoard[playRow][playCol] = SokobanTile.FLOOR;
+
+
+            gameBoard[playRow][playCol-1] = SokobanTile.PLAYER;
+            playCol --;
+        }
+
+        if (destination == SokobanTile.PLAYERONGOAL) {
+
+        }
+
+
+        /* int temp = gameBoard[playRow][playCol]; //Shouldn't playRow and playCol be updated instead?
+        gameBoard[playRow][playCol] = gameBoard[playRow][playCol-1]; 
+        gameBoard[playRow][playCol-1] = temp; */
     }
 
     public void moveRight() {
@@ -76,7 +108,11 @@ public class SokobanGame {
     }
 
 
-
+    public void switchTiles(int row1, int col1, int row2, int col2) {
+        int tempState = gameBoard[row1][col1];
+        gameBoard[row1][col1] = gameBoard[row2][col2];
+        gameBoard[row2][col2] = tempState;
+    }
 
     public int[][] getGameBoard() {
         return gameBoard;
@@ -91,6 +127,6 @@ public class SokobanGame {
     }
 
     public static void main(String[] args) {
-        new SokobanGame(lvlone);
+        new SokobanGame(lvltest);
     }   
 }

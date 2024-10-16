@@ -31,6 +31,7 @@ public class SokobanTile extends JLabel {
     public void setState(int s) {
         state = s;
         img = new ImageIcon("lib/pictures/" + tileTypes[state] + ".png");
+        this.setIcon(img);
     }
 
     public void switchState(SokobanTile st) {
