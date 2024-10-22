@@ -89,4 +89,7 @@ public class SokobanGUI implements Observer {
         gamePanel.repaint();        
     }
 
+    public void delete() {
+        frame.dispose();
+    }
 }
