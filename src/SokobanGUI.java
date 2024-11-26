@@ -9,7 +9,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyAdapter;
 
+
 import javax.swing.JFrame;
+import javax.swing.JTextField;
 import javax.swing.JPanel;
 
 public class SokobanGUI implements Observer {
@@ -28,7 +30,8 @@ public class SokobanGUI implements Observer {
         gameBoard = new SokobanTile[rows][cols];
 
         frame = new JFrame("Sokoban");
-        //rame.setMinimumSize(new Dimension(cols*32, rows*32));        
+        frame.setLayout(new GridLayout(1,2));
+        //frame.setMinimumSize(new Dimension(cols*32, rows*32));        
         //frame.setResizable(false); Solves the problem but I want to be able to have a fullscreen with maybe some background around the game?
         
         gamePanel = new JPanel();
@@ -87,6 +90,13 @@ public class SokobanGUI implements Observer {
             }
         }
         gamePanel.repaint();        
+    }
+
+    public void gameOver() {
+        frame.add(new JTextField("YOU WON!"));
+        frame.repaint();
+        frame.setState(Frame.MAXIMIZED_BOTH);
+        frame.setState(Frame.NORMAL);
     }
 
     public void delete() {

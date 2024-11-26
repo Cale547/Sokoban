@@ -5,7 +5,7 @@ public class SokobanGame {
     private int[][] gameBoard;
     private int playRow;
     private int playCol;
-
+    private boolean gameOver;
     private int[][] gameBoardStart;
     private int playRowStart;
     private int playColStart;
@@ -37,6 +37,7 @@ public class SokobanGame {
     }
 
     public void eventHandler(KeyEvent e) {
+        if (gameOver)return;
         int key = e.getKeyCode();
         switch (key) {
             case KeyEvent.VK_A:
@@ -47,7 +48,7 @@ public class SokobanGame {
             case KeyEvent.VK_UP: moveUp(); break;
             case KeyEvent.VK_S:
             case KeyEvent.VK_DOWN: moveDown(); break;
-            case KeyEvent.VK_SPACE: resetGame(); break;
+            case KeyEvent.VK_SPACE: resetGame(); return;
             default: break;
         }
 
@@ -73,6 +74,14 @@ public class SokobanGame {
             if (!noEmptyGoals) break;
         }
         if (noEmptyGoals) {
+            for (int row = 0; row < gameBoard.length; row++) {
+                for (int col = 0; col < gameBoard[0].length; col++) {
+                    gameBoard[row][col] = WALL;
+                }
+                gui.update(this);
+            }
+            gui.gameOver();
+            gameOver = true;
             System.out.println("You won!");
         }
     }
@@ -97,7 +106,7 @@ public class SokobanGame {
                 break;
             case BOX:
             case BOXONGOAL:
-                if (boxDestination == WALL) return;
+                if (boxDestination == WALL || boxDestination == BOX || boxDestination == BOXONGOAL) return;
                 if (boxDestination == FLOOR) gameBoard[playRow][playCol-2] = BOX;
                 else /*(boxDestination == GOAL)*/ gameBoard[playRow][playCol-2] = BOXONGOAL;
                 if (destination == BOXONGOAL) gameBoard[playRow][playCol-1] = PLAYERONGOAL;
@@ -133,7 +142,7 @@ public class SokobanGame {
                 break;
             case BOX:
             case BOXONGOAL:
-                if (boxDestination == WALL) return;
+                if (boxDestination == WALL || boxDestination == BOX || boxDestination == BOXONGOAL) return;
                 if (boxDestination == FLOOR) gameBoard[playRow][playCol+2] = BOX;
                 else /*(boxDestination == GOAL)*/ gameBoard[playRow][playCol+2] = BOXONGOAL;
                 if (destination == BOXONGOAL) gameBoard[playRow][playCol+1] = PLAYERONGOAL;
@@ -169,7 +178,7 @@ public class SokobanGame {
                 break;
             case BOX:
             case BOXONGOAL:
-                if (boxDestination == WALL) return;
+                if (boxDestination == WALL || boxDestination == BOX || boxDestination == BOXONGOAL) return;
                 if (boxDestination == FLOOR) gameBoard[playRow-2][playCol] = BOX;
                 else /*(boxDestination == GOAL)*/ gameBoard[playRow-2][playCol] = BOXONGOAL;
                 if (destination == BOXONGOAL) gameBoard[playRow-1][playCol] = PLAYERONGOAL;
@@ -205,7 +214,7 @@ public class SokobanGame {
                 break;
             case BOX:
             case BOXONGOAL:
-                if (boxDestination == WALL) return;
+                if (boxDestination == WALL || boxDestination == BOX || boxDestination == BOXONGOAL) return;
                 if (boxDestination == FLOOR) gameBoard[playRow+2][playCol] = BOX;
                 else /*(boxDestination == GOAL)*/ gameBoard[playRow+2][playCol] = BOXONGOAL;
                 if (destination == BOXONGOAL) gameBoard[playRow+1][playCol] = PLAYERONGOAL;

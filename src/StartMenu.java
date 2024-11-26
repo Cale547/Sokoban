@@ -71,7 +71,7 @@ public class StartMenu extends JFrame {
         JButton two = new JButton("Lvl 2");
         two.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                new SokobanGame(lvlTwo, playcolTwo, playcolTwo);
+                new SokobanGame(lvlTwo, playrowTwo, playcolTwo);
                 StartMenu.this.dispose();
             }
         });
